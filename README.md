@@ -1,4 +1,4 @@
-# 🌍 Travel Routes Platform
+# 🌍 Rutas Ocultas Platform
 
 Plataforma web de viajes centrada en el descubrimiento y la compartición de rutas auténticas, alternativas y poco turísticas alrededor del mundo.
 
