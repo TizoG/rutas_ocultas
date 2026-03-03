@@ -1,84 +1,148 @@
 # 🌍 Rutas Ocultas Platform
 
-Plataforma web de viajes centrada en el descubrimiento y la compartición de rutas auténticas, alternativas y poco turísticas alrededor del mundo.
+Plataforma web de viajes centrada en descubrir y compartir rutas auténticas, alternativas y poco turísticas.
 
-El objetivo del proyecto es inspirar a viajeros a explorar destinos desde una perspectiva diferente, priorizando experiencias locales, culturales y fuera de los circuitos masificados.
-
----
-
-# ✨ Features
-
-- 🔎 Exploración de rutas por países y ciudades  
-- 🧭 Filtros por tipo de turismo (aventura, cultural, naturaleza, gastronómico, etc.)  
-- 🔥 Ranking de rutas en tendencia (Trending Top)  
-- 📍 Detalle completo de itinerarios con mapa  
-- 👥 Comunidad de viajeros  
-- 👍 Sistema de votos y valoraciones  
-- 💬 Comentarios en rutas  
-- ➕ Publicación de rutas por usuarios  
-- ❤️ Guardado de rutas favoritas  
-- 📰 Newsletter de nuevas rutas  
+Este repositorio quedó preparado con:
+- **Frontend en Next.js 14 + TypeScript + Tailwind**.
+- **Backend en FastAPI (Python)**.
+- **Base de datos recomendada: PostgreSQL**.
 
 ---
 
-# 🧱 Tech Stack
+## ✅ Decisión de base de datos: ¿MongoDB o PostgreSQL?
 
-## Frontend
+Para este proyecto, **PostgreSQL es la mejor opción inicial**.
+
+### PostgreSQL (recomendado)
+**Ventajas para Rutas Ocultas:**
+- Datos relacionales claros: usuarios, rutas, comentarios, votos, favoritos, newsletter.
+- Integridad referencial (FK, constraints) útil para evitar inconsistencias.
+- Buen rendimiento en consultas complejas (trending, filtros combinados, rankings).
+- Escalable y estándar para apps web con analítica y reportes.
+
+### MongoDB (cuándo sí elegirlo)
+- Si el esquema cambia constantemente y necesitas mucha flexibilidad documental.
+- Si priorizas almacenamiento tipo documento con joins mínimos.
+
+### Conclusión
+- **Empieza con PostgreSQL** para tener base sólida y consistente.
+- MongoDB puede considerarse después para módulos específicos (ej. eventos o logs), pero no como core principal.
+
+---
+
+## 🧱 Tech Stack
+
+### Frontend
 - **Next.js 14+ (App Router)**
 - **TypeScript**
 - **Tailwind CSS**
-- **shadcn/ui**
+- **shadcn/ui (base preparada)**
 - **Framer Motion**
 - **Lucide Icons**
 
-## Backend
-- Next.js API Routes / Server Actions
+### Backend
+- **FastAPI**
+- **SQLAlchemy**
+- **Alembic**
+- **Pydantic Settings**
+- **Uvicorn**
 
-## Database
+### Base de datos
 - **PostgreSQL**
-- **Prisma ORM**
-
-## Auth
-- Clerk
-
-## Storage
-- Cloudinary
-
-## Maps
-- Mapbox / Google Maps API
-
-## Email / Newsletter
-- Resend / SendGrid
-
-## Deploy
-- Vercel  
-- Railway / Render
 
 ---
 
-# 🗂️ Project Structure
+## 🗂️ Estructura del proyecto
 
 ```bash
-/app
-  /(marketing)
-  /(platform)
-  /routes
-  /community
-  /trending
-  /search
-  /newsletter
+/backend
+  /app
+    /api
+      routes.py
+    /core
+      config.py
+    /db
+      session.py
+    main.py
+  requirements.txt
+  .env.example
 
-/components
-  /ui
-  /routes
-  /community
+/frontend
+  /app
+    layout.tsx
+    page.tsx
+    globals.css
+  /lib
+    utils.ts
+  package.json
+  tailwind.config.ts
+```
 
-/lib
-  /db
-  /auth
-  /utils
+---
 
-/prisma
-  schema.prisma
+## ⚙️ Instalación del entorno (ya preparada)
 
-/public
+> Requisitos del sistema:
+- Python 3.11+
+- Node.js 20+
+- npm 10+
+- PostgreSQL 15+
+
+### 1) Backend (FastAPI)
+
+```bash
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+uvicorn app.main:app --reload --port 8000
+```
+
+API disponible en:
+- `http://localhost:8000`
+- Docs Swagger: `http://localhost:8000/docs`
+
+### 2) Frontend (Next.js)
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Frontend disponible en:
+- `http://localhost:3000`
+
+### 3) Conexión frontend ↔ backend
+
+Usa el backend en `http://localhost:8000` y llama endpoints como:
+- `GET /api/health`
+
+---
+
+## 🧪 Comandos útiles
+
+### Backend
+```bash
+cd backend
+source .venv/bin/activate
+uvicorn app.main:app --reload --port 8000
+```
+
+### Frontend
+```bash
+cd frontend
+npm run dev
+npm run lint
+```
+
+---
+
+## 🚀 Próximos pasos sugeridos
+
+1. Definir modelos SQLAlchemy (`User`, `Route`, `Comment`, `Vote`, `Favorite`).
+2. Configurar migraciones con Alembic.
+3. Implementar autenticación (Clerk/JWT).
+4. Conectar mapas (Mapbox/Google Maps).
+5. Añadir módulos de comunidad y trending.
