@@ -128,6 +128,12 @@ Usa el backend en `http://localhost:8000` y llama endpoints como:
 cd backend
 source .venv/bin/activate
 uvicorn app.main:app --reload --port 8000
+
+# crear una nueva migración
+alembic revision --autogenerate -m "init schema"
+
+# aplicar migraciones pendientes
+alembic upgrade head
 ```
 
 ### Frontend
