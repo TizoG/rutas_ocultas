@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import type { ReactNode } from "react";
 
+import { NavAuth } from "@/components/nav-auth";
+
 const bookingSteps = [
   {
     id: "01",
@@ -55,7 +57,10 @@ export default function Home() {
               </li>
             ))}
           </ul>
-          <Menu className="h-5 w-5" />
+          <div className="flex items-center gap-4">
+            <NavAuth />
+            <Menu className="h-5 w-5" />
+          </div>
         </nav>
       </header>
 
