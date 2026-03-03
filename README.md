@@ -152,3 +152,45 @@ npm run lint
 3. Implementar autenticación (Clerk/JWT).
 4. Conectar mapas (Mapbox/Google Maps).
 5. Añadir módulos de comunidad y trending.
+
+
+## 🔐 Autenticación end-to-end con Clerk
+
+Se integró Clerk en frontend y backend para proteger acciones de escritura (crear/editar rutas, comentar, votar y favoritos).
+
+### Variables de entorno requeridas
+
+#### Frontend (`frontend/.env.local`)
+```bash
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_xxxxxxxxxxxxxxxxx
+CLERK_SECRET_KEY=sk_test_xxxxxxxxxxxxxxxxx
+```
+
+> Puedes usar `frontend/.env.local.example` como plantilla.
+
+#### Backend (`backend/.env`)
+```bash
+DATABASE_URL=postgresql+psycopg://postgres:postgres@localhost:5432/rutas_ocultas
+CLERK_ISSUER=https://your-clerk-domain.clerk.accounts.dev
+CLERK_JWKS_URL=https://your-clerk-domain.clerk.accounts.dev/.well-known/jwks.json
+CLERK_AUDIENCE=
+```
+
+> `CLERK_AUDIENCE` es opcional y solo se valida si lo configuras.
+
+### Flujo completo
+
+1. El usuario inicia sesión en Next.js mediante `SignInButton` (Clerk).
+2. Clerk entrega sesión/token JWT al frontend.
+3. El frontend envía el JWT como `Authorization: Bearer <token>` al backend.
+4. FastAPI valida firma y claims del JWT contra el JWKS de Clerk (`CLERK_JWKS_URL`) y `CLERK_ISSUER`.
+5. Con el `sub` del token se crea/actualiza el usuario local en tabla `users` usando `clerk_user_id`.
+6. Endpoints protegidos usan `get_current_user` y bloquean acceso sin token válido.
+
+### Endpoints protegidos
+
+- `POST /api/routes`
+- `PUT /api/routes/{route_id}`
+- `POST /api/comments`
+- `POST /api/votes`
+- `POST /api/favorites`

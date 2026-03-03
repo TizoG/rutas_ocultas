@@ -5,3 +5,4 @@ psycopg[binary]==3.2.9
 pydantic-settings==2.10.1
 alembic==1.16.4
 python-dotenv==1.1.1
+pyjwt[crypto]==2.10.1
